@@ -13,8 +13,8 @@ import greenTea from "@/assets/green-tea.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Ranrasa — Good Taste That Lingers" },
-      { name: "description", content: "Pure Sri Lankan highland tea. Zero additives. Shop our premium Ceylon black and green tea." },
+      { title: "Ranrasa Ceylon Tea | Pure Sri Lankan Highland Tea" },
+      { name: "description", content: "Shop Ranrasa Tea: Pure, zero additive Sri Lankan highland tea." },
     ],
   }),
   component: Home,

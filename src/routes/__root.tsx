@@ -57,8 +57,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ranrasa — Pure Sri Lankan Highland Tea" },
-      { name: "description", content: "Premium Ceylon tea sourced from Sri Lanka's highlands. Zero additives, pure leaf, lingering taste." },
+      { title: "Ranrasa Ceylon Tea | Pure Sri Lankan Highland Tea" },
+      { name: "description", content: "Shop Ranrasa Tea: Pure, zero additive Sri Lankan highland tea." },
       { property: "og:title", content: "Ranrasa — Pure Sri Lankan Highland Tea" },
       { property: "og:description", content: "Premium Ceylon tea. Zero additives." },
       { property: "og:type", content: "website" },
