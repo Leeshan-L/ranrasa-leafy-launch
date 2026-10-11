@@ -152,14 +152,14 @@ function Home() {
                 <CardContent className="p-6">
                   <h3 className="font-display text-xl font-semibold text-gold-dark">{p.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{p.detail}</p>
-                  <div className="mt-4 flex items-center justify-between gap-3">
-                    <p className="flex items-baseline gap-1.5">
+                  <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-3">
+                    <p className="flex items-baseline gap-1.5 whitespace-nowrap">
                       <span className="text-2xl font-bold text-deep-red">{p.price}</span>
                       {p.priceSuffix && (
                         <span className="text-sm font-medium text-muted-foreground">{p.priceSuffix}</span>
                       )}
                     </p>
-                    <Button asChild variant="brand" className="group/btn">
+                    <Button asChild variant="brand" className="group/btn w-full lg:w-auto">
                       <a href={whatsappLink(p.message)} target="_blank" rel="noopener noreferrer">
                         <WhatsAppIcon className="h-4 w-4 transition-transform group-hover/btn:scale-110" />
                         Order on WhatsApp

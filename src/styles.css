@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Legacy (non-Unicode) Sinhala font: ASCII characters draw Sinhala shapes.
+   Only use through <SinhalaText>, which adds the real Unicode text. */
+@font-face {
+  font-family: "FM Arjunn";
+  src: url("./assets/fonts/fm-arjunn.woff2") format("woff2"),
+    url("./assets/fonts/fm-arjunn.ttf") format("truetype");
+  font-display: block;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
