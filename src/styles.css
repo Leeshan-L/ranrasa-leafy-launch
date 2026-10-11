@@ -30,6 +30,7 @@
   --color-ring: var(--ring);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-gold-dark: var(--gold-dark);
   --color-deep-red: var(--deep-red);
   --color-deep-red-hover: var(--deep-red-hover);
   --color-cream: var(--cream);
@@ -62,6 +63,7 @@
   /* Brand */
   --gold: oklch(0.74 0.13 80);          /* #D4AF37 */
   --gold-soft: oklch(0.92 0.06 85);
+  --gold-dark: #8b6b23;                 /* product names; 5:1 contrast on white */
   --deep-red: oklch(0.42 0.18 27);      /* #8B0000 */
   --deep-red-hover: oklch(0.36 0.18 27);
   --cream: oklch(0.985 0.008 80);
