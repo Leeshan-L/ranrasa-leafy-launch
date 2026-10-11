@@ -1,10 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Leaf, Instagram, Facebook, Twitter, Youtube } from "lucide-react";
+import { Menu, X, Facebook } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { siteConfig } from "@/lib/site-config";
+import brandLogo from "@/assets/logos/brand-logo.webp";
+import kahataLogo from "@/assets/logos/kahata-logo.webp";
+import companyLogo from "@/assets/logos/company-logo.webp";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -13,16 +17,26 @@ const nav = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z" />
+    </svg>
+  );
+}
+
+const socials = [
+  { href: siteConfig.facebookUrl, label: "Ranrasa on Facebook", Icon: Facebook },
+  { href: siteConfig.tiktokUrl, label: "Ranrasa on TikTok", Icon: TikTokIcon },
+];
+
 function Header() {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="container-tea flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-gold/15 text-gold">
-            <Leaf className="h-5 w-5" />
-          </span>
-          <span className="font-display text-xl font-bold tracking-tight">Ranrasa</span>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
+          <img src={brandLogo} alt="Ranrasa" className="h-10 w-auto md:h-12" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -41,7 +55,7 @@ function Header() {
 
         <div className="hidden md:block">
           <Button asChild variant="brand" size="sm">
-            <Link to="/contact">Shop Now</Link>
+            <Link to="/" hash="products">Shop Now</Link>
           </Button>
         </div>
 
@@ -77,7 +91,7 @@ function Header() {
                 </Link>
               ))}
               <Button asChild variant="brand" className="mt-2" onClick={() => setOpen(false)}>
-                <Link to="/contact">Shop Now</Link>
+                <Link to="/" hash="products">Shop Now</Link>
               </Button>
             </nav>
           </motion.div>
@@ -98,15 +112,23 @@ function Footer() {
     <footer className="mt-24 border-t border-border bg-cream">
       <div className="container-tea grid gap-10 py-14 md:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-gold/15 text-gold">
-              <Leaf className="h-5 w-5" />
-            </span>
-            <span className="font-display text-xl font-bold">Ranrasa</span>
-          </div>
+          <Link to="/" className="inline-block">
+            <img src={brandLogo} alt="Ranrasa" className="h-14 w-auto" />
+          </Link>
           <p className="mt-3 text-sm text-muted-foreground">
             Pure Sri Lankan highland tea. No additives. Just good taste that lingers.
           </p>
+          <div className="mt-5 flex flex-wrap items-center gap-4">
+            <span className="rounded-md bg-deep-red px-3 py-2">
+              <img src={kahataLogo} alt="Ranrasa Kahata Tea" className="h-7 w-auto" />
+            </span>
+            <div className="flex items-center gap-2">
+              <img src={companyLogo} alt={siteConfig.companyName} className="h-10 w-auto" />
+              <span className="text-xs text-muted-foreground">
+                Manufactured by {siteConfig.companyName}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -125,11 +147,13 @@ function Footer() {
           <h4 className="text-sm font-semibold uppercase tracking-wider">Follow</h4>
           <span className="gold-divider mt-2" />
           <div className="mt-4 flex gap-3">
-            {[Instagram, Facebook, Twitter, Youtube].map((Icon, i) => (
+            {socials.map(({ href, label, Icon }) => (
               <a
-                key={i}
-                href="#"
-                aria-label="social"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
                 className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground/70 transition-colors hover:border-gold hover:text-gold"
               >
                 <Icon className="h-4 w-4" />
