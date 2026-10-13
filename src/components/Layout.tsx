@@ -145,18 +145,30 @@ function Footer() {
           <h4 className="text-sm font-semibold uppercase tracking-wider">Follow</h4>
           <span className="gold-divider mt-2" />
           <div className="mt-4 flex gap-3">
-            {socials.map(({ href, label, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground/70 transition-colors hover:border-gold hover:text-gold"
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
+            {socials.map(({ href, label, Icon }) =>
+              // Only real web addresses become links; a placeholder shows the icon without a broken link.
+              /^https?:\/\//.test(href) ? (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground/70 transition-colors hover:border-gold hover:text-gold"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ) : (
+                <span
+                  key={label}
+                  role="img"
+                  aria-label={`${label} (coming soon)`}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground/40"
+                >
+                  <Icon className="h-4 w-4" />
+                </span>
+              ),
+            )}
           </div>
         </div>
 

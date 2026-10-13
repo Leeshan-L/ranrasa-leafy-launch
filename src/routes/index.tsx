@@ -168,7 +168,7 @@ function Home() {
             <SinhalaText
               lines={[
                 { fm: "iS; l¥lrfha", unicode: "සීත කඳුකරයේ", className: "whitespace-nowrap text-white" },
-                { fm: "kejqï f;a myi", unicode: "නැවුම් තේ පහස", className: "whitespace-nowrap text-red-gold-light" },
+                { fm: "kejqï f;a myi", unicode: "නැවුම් තේ පහස", className: "whitespace-nowrap text-logo-gold" },
               ]}
             />
           </motion.h1>

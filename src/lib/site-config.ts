@@ -1,8 +1,8 @@
 // Business details used across the site. Edit them here only.
 export const siteConfig = {
   whatsappNumber: "94772609457", // international format, digits only
-  facebookUrl: "#", // TODO: replace with real Facebook page URL
-  tiktokUrl: "#", // TODO: replace with real TikTok profile URL
+  facebookUrl: "https://www.facebook.com/ranrasatea",
+  tiktokUrl: "[YOUR TIKTOK LINK]", // TODO: full https:// TikTok profile URL; the icon stays unlinked until then
   companyName: "Sampatha Products",
   brandLine: "Ranrasa Tea by Sampatha Products",
   address: "49/10, Ananda Vidyala Mawatha, Elpitiya, Sri Lanka",
