@@ -4,6 +4,7 @@ import { Coffee, Sunrise, Users, Leaf } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SinhalaText } from "@/components/SinhalaText";
 import aboutImg from "@/assets/about-story.webp";
+import founderImg from "@/assets/about/founder.webp";
 import fmArjunnWoff2 from "@/assets/fonts/fm-arjunn.woff2?url";
 
 export const Route = createFileRoute("/about")({
@@ -89,8 +90,39 @@ function About() {
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* Meet the Founder */}
       <section className="border-t border-border bg-cream">
+        <div className="container-tea overflow-x-clip py-16 md:py-20">
+          <div className="mx-auto grid max-w-4xl items-center gap-8 sm:grid-cols-[minmax(0,18rem)_1fr] md:gap-14">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="mx-auto aspect-[4/5] w-full max-w-[18rem] overflow-hidden rounded-lg shadow-md"
+            >
+              <img
+                src={founderImg}
+                alt="Amal Sampath, Founder & Managing Director, Sampatha Products"
+                loading="lazy"
+                className="h-full w-full object-cover object-top"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="text-center sm:text-left"
+            >
+              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Meet the Founder</span>
+              <h2 className="mt-3 font-display text-3xl font-bold md:text-5xl">Amal Sampath</h2>
+              <span className="gold-divider mx-auto mt-4 sm:mx-0" />
+              <p className="mt-4 text-muted-foreground md:text-lg">Founder &amp; Managing Director, Sampatha Products</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="border-t border-border bg-background">
         <div className="container-tea py-20">
           <div className="text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Why Drink Tea</span>
