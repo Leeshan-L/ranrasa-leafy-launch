@@ -12,4 +12,14 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Outside Lovable's sandbox the preset skips nitro unless it's enabled here.
+  // These are the same settings Lovable applies in its sandbox, so the build is
+  // identical everywhere: a Cloudflare Worker in dist/ plus a generated
+  // dist/server/wrangler.json that `npx wrangler deploy` picks up automatically.
+  nitro: {
+    preset: "cloudflare-module",
+    output: { dir: "dist", serverDir: "dist/server", publicDir: "dist/client" },
+    // Worker name and compatibility date come from wrangler.jsonc.
+    cloudflare: { nodeCompat: true, deployConfig: true },
+  },
 });

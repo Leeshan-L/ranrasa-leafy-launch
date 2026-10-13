@@ -1,24 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Eye, Scale, HeartPulse, Smile, Leaf } from "lucide-react";
+import { Coffee, Sunrise, Users, Leaf } from "lucide-react";
+import { seo } from "@/lib/seo";
 import { Layout } from "@/components/Layout";
-import aboutImg from "@/assets/about-tea.jpg";
+import { SinhalaText } from "@/components/SinhalaText";
+import aboutImg from "@/assets/about-story.webp";
+import founderImg from "@/assets/about/founder.webp";
+import fmArjunnWoff2 from "@/assets/fonts/fm-arjunn.woff2?url";
+
+const pageSeo = seo({
+  path: "/about",
+  title: "About Ranrasa — The Golden Taste of Pure Tea",
+  description:
+    "The story of Ranrasa Tea by Sampatha Products: pure Sri Lankan highland tea with zero additives, processed and packed in Elpitiya for over fifteen years.",
+});
 
 export const Route = createFileRoute("/about")({
   head: () => ({
-    meta: [
-      { title: "About Ranrasa — Our Highland Promise" },
-      { name: "description", content: "Single-origin Sri Lankan highland tea, sourced without additives. Learn about our heritage and health benefits." },
-    ],
+    ...pageSeo,
+    links: [...pageSeo.links, { rel: "preload", href: fmArjunnWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" }],
   }),
   component: About,
 });
 
 const benefits = [
-  { icon: Eye, title: "Improve Eyesight", desc: "Rich in vitamin B2 and antioxidants for ocular health." },
-  { icon: Scale, title: "Weight Loss", desc: "Polyphenols that support a healthy metabolism." },
-  { icon: HeartPulse, title: "Heart Health", desc: "Catechins help maintain healthy cholesterol levels." },
-  { icon: Smile, title: "Makes You Happy", desc: "L-theanine gently calms and lifts the mood." },
+  { icon: Coffee, title: "Bold & Rich Flavour", desc: "A strong, full-bodied cup every time." },
+  { icon: Sunrise, title: "Your Daily Refresh", desc: "The perfect start to the morning or an evening break." },
+  { icon: Users, title: "Made for Sharing", desc: "Tea for family, guests and good conversation." },
+  { icon: Leaf, title: "Pure & Simple", desc: "Just tea leaves. Nothing added." },
 ];
 
 function About() {
@@ -28,24 +37,62 @@ function About() {
       <section className="border-b border-border bg-cream">
         <div className="container-tea py-16 text-center md:py-24">
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Our Story</span>
-          <h1 className="mt-3 font-display text-4xl font-bold md:text-6xl">From Highland Mist to Your Cup</h1>
+          <h1 className="mt-4 text-balance text-[2.5rem] leading-tight sm:text-5xl md:text-7xl">
+            <SinhalaText fm="iS; l¥lrfha kejqï f;a myi" unicode="සීත කඳුකරයේ නැවුම් තේ පහස" />
+          </h1>
           <span className="gold-divider mx-auto mt-5" />
           <p className="mx-auto mt-6 max-w-2xl text-muted-foreground">
-            Three generations of tea makers, one unwavering promise: nothing but the leaf.
+            Finest tea produced from tea leaves harvested from lush tea plantations in the highlands.
           </p>
         </div>
       </section>
 
+      {/* Meet the Founder */}
+      <section className="bg-background">
+        <div className="container-tea overflow-x-clip py-16 md:py-20">
+          <div className="mx-auto grid max-w-4xl items-center gap-8 sm:grid-cols-[minmax(0,18rem)_1fr] md:gap-14">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="mx-auto aspect-[4/5] w-full max-w-[18rem] overflow-hidden rounded-lg shadow-md"
+            >
+              <img
+                src={founderImg}
+                alt="Amal Sampath, Founder & Managing Director, Sampatha Products"
+                loading="lazy"
+                className="h-full w-full object-cover object-top"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6 }}
+              className="text-center sm:text-left"
+            >
+              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Meet the Founder</span>
+              <h2 className="mt-3 font-display text-3xl font-bold md:text-5xl">Amal Sampath</h2>
+              <span className="gold-divider mx-auto mt-4 sm:mx-0" />
+              <p className="mt-4 text-muted-foreground md:text-lg">Founder &amp; Managing Director, Sampatha Products</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Origin story */}
-      <section className="container-tea py-20">
+      <section className="border-t border-border bg-cream">
+        <div className="container-tea overflow-x-clip py-20">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="relative aspect-[4/5] overflow-hidden rounded-lg"
           >
-            <img src={aboutImg} alt="Tea picker in the highlands" loading="lazy" className="h-full w-full object-cover" />
+            <img src={aboutImg} alt="Fresh green tea leaves growing on a tea bush" loading="lazy" className="h-full w-full object-cover" />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" />
+            <div className="absolute bottom-5 left-5 rounded-lg bg-background/95 px-5 py-3 shadow-md backdrop-blur">
+              <p className="font-display text-3xl font-bold text-deep-red">15+ Years</p>
+              <p className="text-sm text-muted-foreground">of pure tea</p>
+            </div>
           </motion.div>
 
           <motion.div
@@ -53,33 +100,40 @@ function About() {
             viewport={{ once: true }} transition={{ duration: 0.6 }}
           >
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Zero Additives</span>
-            <h2 className="mt-3 font-display text-3xl font-bold md:text-4xl">Sourced from 6,500 ft. Above the Sea</h2>
+            <h2 className="mt-3 font-display text-3xl font-bold md:text-4xl">The Golden Taste of Pure Tea</h2>
             <span className="gold-divider mt-4" />
             <p className="mt-6 text-muted-foreground">
-              Our gardens cling to the steep slopes of Nuwara Eliya, where cool mountain air and
-              persistent mist slow the leaf's growth — concentrating flavor and aroma in ways
-              lowland tea simply cannot match.
+              Amal Sampath, the founder of Ranrasa Tea, grew up in a family where tea was part of everyday life. More than fifteen years ago, he set out with one simple goal: to bring local families a pure tea with zero additives, nothing but the leaf.
             </p>
             <p className="mt-4 text-muted-foreground">
-              Every batch is hand-plucked, sun-withered, and sealed within hours of harvest.
-              No flavorings. No colorings. No shortcuts. Just tea, the way it was meant to be.
+              He named it Ranrasa, meaning “golden taste” the rich, golden cup he believed every Sri Lankan home deserves.
+            </p>
+            <p className="mt-4 text-muted-foreground">
+              Our tea leaves are grown in the fresh, cool highlands of Sri Lanka, then brought down south to Elpitiya, where Sampatha Products carefully processes and packs every batch to keep that freshness sealed in.
+            </p>
+            <p className="mt-4 text-muted-foreground">
+              Our signature tea, <span className="font-semibold text-gold-dark">Ranrasa Kahata</span>, celebrates tea at its purest. Kahata means pure tea, nothing but the leaf. Many Sri Lankans love their tea sweet and add sugar to make plain tea, and that choice is yours. What we give you is the pure tea itself.
+            </p>
+            <p className="mt-4 text-muted-foreground">
+              From Amal’s family to yours, every cup of Ranrasa is a promise of honest, pure Ceylon tea.
             </p>
             <div className="mt-8 flex items-center gap-4 rounded-lg border border-gold/30 bg-gold/5 p-5">
               <Leaf className="h-8 w-8 shrink-0 text-gold" />
               <p className="text-sm font-medium">
-                100% single-origin · Rainforest Alliance certified · Ethically sourced
+                Zero additives · Nothing but the leaf · Packed in Elpitiya, Sri Lanka
               </p>
             </div>
           </motion.div>
         </div>
+        </div>
       </section>
 
       {/* Benefits */}
-      <section className="border-t border-border bg-cream">
+      <section className="border-t border-border bg-background">
         <div className="container-tea py-20">
           <div className="text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Why Drink Tea</span>
-            <h2 className="mt-3 font-display text-3xl font-bold md:text-5xl">A Daily Ritual, A Lifetime of Wellness</h2>
+            <h2 className="mt-3 font-display text-3xl font-bold md:text-5xl">Why People Love Ranrasa</h2>
             <span className="gold-divider mx-auto mt-4" />
           </div>
 
