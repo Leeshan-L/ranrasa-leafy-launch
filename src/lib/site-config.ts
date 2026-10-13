@@ -10,8 +10,7 @@ export const siteConfig = {
   phoneDisplay: "+94 77 260 9457",
   phoneLink: "+94772609457",
   openingHours: "Mon – Sat, 9:00 AM – 7:00 PM",
-  // TODO: replace with the access key from https://web3forms.com (sent to the email it's registered with)
-  web3formsKey: "[WEB3FORMS KEY]",
+  web3formsKey: "[PASTE YOUR KEY HERE]",
 };
 
 export function whatsappLink(message: string) {

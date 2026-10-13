@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Truck, Leaf, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,16 @@ const heroSlides = [
   { src: hero2, alt: "Green tea plantation on a misty Sri Lankan hillside", position: "center" },
   { src: hero3, alt: "Tea pluckers picking fresh tea leaves", position: "65% 30%" },
 ];
-const SLIDE_MS = 3000;
+const SLIDE_MS = 5000;
+// Right-to-left slide + fade. Each image is 30% wider than the hero and moves
+// 15% of the hero width (11.5% of its own), so its edges never come into view.
+// The new image fades in on top while the old one slides out underneath,
+// so there's no seam, gap or dark dip mid-transition.
+const slideVariants = {
+  enter: (reduce: boolean) => ({ x: reduce ? 0 : "11.5%", opacity: 0, zIndex: 1 }),
+  center: { x: 0, opacity: 1, zIndex: 1 },
+  exit: (reduce: boolean) => ({ x: reduce ? 0 : "-11.5%", opacity: 1, zIndex: 0 }),
+};
 
 const journalPosts = ["perfect-cup-of-kahata", "how-to-store-tea"].flatMap((slug) => getPost(slug) ?? []);
 
@@ -69,11 +78,15 @@ const features = [
 function HeroSlideshow({ y }: { y: MotionValue<number> }) {
   const [current, setCurrent] = useState(0);
   const [tabHidden, setTabHidden] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = !!useReducedMotion();
 
   useEffect(() => {
     const onVisibility = () => setTabHidden(document.hidden);
     document.addEventListener("visibilitychange", onVisibility);
+    // Only the current slide is mounted, so warm the cache for the others.
+    heroSlides.slice(1).forEach((slide) => {
+      new Image().src = slide.src;
+    });
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
@@ -84,23 +97,28 @@ function HeroSlideshow({ y }: { y: MotionValue<number> }) {
     return () => clearTimeout(t);
   }, [current, reduceMotion, tabHidden]);
 
+  const slide = heroSlides[current];
+
   return (
     <>
-      <motion.div style={{ y }} className="absolute inset-0 -z-10">
-        {heroSlides.map((slide, i) => (
-          <img
+      <motion.div style={{ y }} className="absolute inset-0 -z-10 bg-neutral-900">
+        <AnimatePresence initial={false} custom={reduceMotion}>
+          <motion.img
             key={slide.src}
             src={slide.src}
             alt={slide.alt}
-            aria-hidden={i !== current}
-            {...(i === 0 ? { fetchPriority: "high" as const } : { loading: "lazy" as const, decoding: "async" as const })}
+            fetchPriority={current === 0 ? "high" : undefined}
+            custom={reduceMotion}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: reduceMotion ? 0.5 : 1.2, ease: "easeInOut" }}
             style={{ objectPosition: slide.position }}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out motion-reduce:transition-none ${
-              i === current ? "opacity-100" : "opacity-0"
-            }`}
+            className="absolute inset-y-0 left-[-15%] h-full w-[130%] max-w-none object-cover"
           />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
+        </AnimatePresence>
+        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center gap-1">
@@ -145,7 +163,7 @@ function Home() {
           </motion.span>
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05 }}
-            className="mb-3 text-[1.75rem] text-gold drop-shadow sm:text-3xl md:text-4xl"
+            className="mb-4 inline-block rounded-lg bg-white/85 px-3 py-1 text-[1.75rem] leading-snug text-red-gold shadow-sm backdrop-blur-sm sm:text-3xl md:text-4xl"
           >
             <SinhalaText fm="iS; l¥lrfha kejqï f;a myi" unicode="සීත කඳුකරයේ නැවුම් තේ පහස" />
           </motion.p>

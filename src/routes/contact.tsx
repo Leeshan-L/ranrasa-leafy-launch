@@ -27,19 +27,30 @@ const details = [
   { icon: Clock, title: "Hours", text: siteConfig.openingHours },
 ];
 
-type Errors = Partial<Record<"name" | "email" | "message", string>>;
+type Errors = Partial<Record<"name" | "phone" | "email" | "message", string>>;
+
+const field = (fd: FormData, key: string) => String(fd.get(key) ?? "").trim();
+
+// Accepts 0771234567, 077 123 4567, +94771234567, +94 77 123 4567 (spaces/dashes ok), 9–15 digits.
+export function isValidPhone(phone: string) {
+  const digits = phone.replace(/\D/g, "").length;
+  return /^\+?[\d\s-]+$/.test(phone) && digits >= 9 && digits <= 15;
+}
 
 function validate(fd: FormData): Errors {
   const errors: Errors = {};
-  const name = String(fd.get("name") ?? "").trim();
-  const email = String(fd.get("email") ?? "").trim();
-  const message = String(fd.get("message") ?? "").trim();
-  if (!name) errors.name = "Please enter your name.";
-  if (!email) errors.email = "Please enter your email.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Please enter a valid email address.";
-  if (!message) errors.message = "Please enter a message.";
+  const phone = field(fd, "phone");
+  const email = field(fd, "email");
+  if (!field(fd, "name")) errors.name = "Please enter your name.";
+  if (!phone) errors.phone = "Please enter your mobile number.";
+  else if (!isValidPhone(phone)) errors.phone = "Please enter a valid mobile number, e.g. 077 123 4567 or +94 77 123 4567.";
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Please enter a valid email address, or leave it empty.";
+  if (!field(fd, "message")) errors.message = "Please enter a message.";
   return errors;
 }
+
+// A Web3Forms access key is a UUID. Catches the placeholder and keys pasted with [ ] or quotes.
+const isValidAccessKey = (key: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(key);
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
@@ -60,31 +71,51 @@ function Contact() {
 
     const failed = () =>
       toast.error(`Sorry, your message couldn't be sent. Please call or WhatsApp us on ${siteConfig.phoneDisplay}.`);
-    if (siteConfig.web3formsKey.startsWith("[")) return failed();
 
-    const subject = String(fd.get("subject") ?? "").trim();
+    const key = siteConfig.web3formsKey.trim();
+    if (!isValidAccessKey(key)) {
+      console.error(
+        `[Contact form] Web3Forms access key is missing or invalid: "${siteConfig.web3formsKey}". ` +
+          "Paste only the key into src/lib/site-config.ts, without [ ] brackets.",
+      );
+      return failed();
+    }
+
+    const email = field(fd, "email");
+    const subject = field(fd, "subject");
+    const data: Record<string, string | boolean> = {
+      access_key: key,
+      from_name: "Ranrasa Website",
+      subject: subject ? `New message from Ranrasa website: ${subject}` : "New message from Ranrasa website",
+      name: field(fd, "name"),
+      phone: field(fd, "phone"),
+      message: field(fd, "message"),
+    };
+    if (email) {
+      data.email = email;
+      data.replyto = email;
+    }
+    // Honeypot: only real users leave it unticked. Send it only if a bot ticked it, so Web3Forms drops the spam.
+    if (fd.has("botcheck")) data.botcheck = true;
+
     setLoading(true);
     try {
+      // Sent from the browser: the Web3Forms free plan blocks server-side submissions.
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: siteConfig.web3formsKey,
-          from_name: "Ranrasa Website",
-          subject: subject ? `New message from Ranrasa website: ${subject}` : "New message from Ranrasa website",
-          name: String(fd.get("name")).trim(),
-          email: String(fd.get("email")).trim(),
-          phone: String(fd.get("phone") ?? "").trim(),
-          message: String(fd.get("message")).trim(),
-          botcheck: fd.has("botcheck"),
-        }),
+        body: JSON.stringify(data),
       });
       const json = await res.json().catch(() => null);
-      if (!res.ok || !json?.success) throw new Error(json?.message ?? `HTTP ${res.status}`);
+      if (json?.success !== true) {
+        console.error("[Contact form] Web3Forms rejected the message:", res.status, json);
+        return failed();
+      }
       toast.success("Thank you! We'll get back to you soon.");
       form.reset();
+      setErrors({});
     } catch (err) {
-      console.error(err);
+      console.error("[Contact form] Could not reach Web3Forms:", err);
       failed();
     } finally {
       setLoading(false);
@@ -160,24 +191,25 @@ function Contact() {
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" placeholder="Your name" aria-invalid={!!errors.name} aria-describedby="name-error" />
+                <Input id="name" name="name" autoComplete="name" placeholder="Your name" aria-invalid={!!errors.name} aria-describedby="name-error" />
                 <FieldError id="name-error" message={errors.name} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" placeholder="you@example.com" aria-invalid={!!errors.email} aria-describedby="email-error" />
-                <FieldError id="email-error" message={errors.email} />
+                <Label htmlFor="phone">Mobile Number</Label>
+                <Input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="077 123 4567" aria-invalid={!!errors.phone} aria-describedby="phone-error" />
+                <FieldError id="phone-error" message={errors.phone} />
               </div>
             </div>
 
             <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone <span className="font-normal text-muted-foreground">(optional)</span></Label>
-                <Input id="phone" name="phone" type="tel" placeholder="07X XXX XXXX" />
+                <Label htmlFor="email">Email <span className="font-normal text-muted-foreground">(optional)</span></Label>
+                <Input id="email" name="email" type="email" autoComplete="email" placeholder="you@example.com" aria-invalid={!!errors.email} aria-describedby="email-error" />
+                <FieldError id="email-error" message={errors.email} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="subject">Subject <span className="font-normal text-muted-foreground">(optional)</span></Label>
-                <Input id="subject" name="subject" placeholder="How can we help?" />
+                <Input id="subject" name="subject" autoComplete="off" placeholder="How can we help?" />
               </div>
             </div>
 
