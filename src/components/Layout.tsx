@@ -110,7 +110,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="mt-24 border-t border-border bg-cream">
-      <div className="container-tea grid gap-10 py-14 md:grid-cols-4">
+      <div className="container-tea grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link to="/" className="inline-block">
             <img src={brandLogo} alt="Ranrasa" className="h-14 w-auto" />

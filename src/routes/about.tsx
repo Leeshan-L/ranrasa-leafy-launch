@@ -68,7 +68,7 @@ function About() {
               Amal Sampath, the founder of Ranrasa Tea, grew up in a family where tea was part of everyday life. More than fifteen years ago, he set out with one simple goal: to bring local families a pure tea with zero additives, nothing but the leaf.
             </p>
             <p className="mt-4 text-muted-foreground">
-              He named it Ranrasa, meaning “golden taste” — the rich, golden cup he believed every Sri Lankan home deserves.
+              He named it Ranrasa, meaning “golden taste” the rich, golden cup he believed every Sri Lankan home deserves.
             </p>
             <p className="mt-4 text-muted-foreground">
               Our tea leaves are grown in the fresh, cool highlands of Sri Lanka, then brought down south to Elpitiya, where Sampatha Products carefully processes and packs every batch to keep that freshness sealed in.

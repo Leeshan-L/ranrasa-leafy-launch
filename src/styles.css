@@ -43,6 +43,7 @@
   --color-deep-red: var(--deep-red);
   --color-deep-red-hover: var(--deep-red-hover);
   --color-red-gold: var(--red-gold);
+  --color-red-gold-light: var(--red-gold-light);
   --color-cream: var(--cream);
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
@@ -77,6 +78,7 @@
   --deep-red: oklch(0.42 0.18 27);      /* #8B0000 */
   --deep-red-hover: oklch(0.36 0.18 27);
   --red-gold: #8a3b12;                  /* blog post titles */
+  --red-gold-light: #e4884e;            /* hero heading line 2 only: ≥3:1 contrast on all hero photos */
   --cream: oklch(0.985 0.008 80);
 
   --font-display: "Playfair Display", Georgia, serif;

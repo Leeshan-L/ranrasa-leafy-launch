@@ -118,7 +118,7 @@ function HeroSlideshow({ y }: { y: MotionValue<number> }) {
             className="absolute inset-y-0 left-[-15%] h-full w-[130%] max-w-none object-cover"
           />
         </AnimatePresence>
-        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
+        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center gap-1">
@@ -161,17 +161,16 @@ function Home() {
           >
             <Leaf className="h-3.5 w-3.5" /> Trusted for Over 15 Years
           </motion.span>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05 }}
-            className="mb-4 inline-block rounded-lg bg-white/85 px-3 py-1 text-[1.75rem] leading-snug text-red-gold shadow-sm backdrop-blur-sm sm:text-3xl md:text-4xl"
-          >
-            <SinhalaText fm="iS; l¥lrfha kejqï f;a myi" unicode="සීත කඳුකරයේ නැවුම් තේ පහස" />
-          </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="max-w-3xl font-display text-5xl font-bold leading-[1.05] sm:text-6xl md:text-7xl"
+            className="text-[3.5rem] leading-[1.2] [text-shadow:0_2px_10px_rgb(0_0_0/0.35)] sm:text-[4.5rem] md:text-[6rem]"
           >
-            Good Taste <br /><em className="not-italic text-gold">That Lingers</em>
+            <SinhalaText
+              lines={[
+                { fm: "iS; l¥lrfha", unicode: "සීත කඳුකරයේ", className: "whitespace-nowrap text-white" },
+                { fm: "kejqï f;a myi", unicode: "නැවුම් තේ පහස", className: "whitespace-nowrap text-red-gold-light" },
+              ]}
+            />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}

@@ -130,7 +130,7 @@ function Contact() {
           <h1 className="mt-3 font-display text-4xl font-bold md:text-6xl">Let's Talk Tea</h1>
           <span className="gold-divider mx-auto mt-5" />
           <p className="mx-auto mt-6 max-w-2xl text-muted-foreground">
-            Whether it's a question about brewing, wholesale, or just to say hello — we'd love to hear from you.
+            Whether it's a question about brewing, wholesale, or just to say hello! we'd love to hear from you.
           </p>
         </div>
       </section>
@@ -146,7 +146,7 @@ function Contact() {
             <h2 className="font-display text-2xl font-bold">Get in Touch</h2>
             <span className="gold-divider" />
             <p className="text-muted-foreground">
-              Questions about our tea, pack sizes or delivery? Call, email or WhatsApp us — we're happy to help.
+              Questions about our tea, pack sizes or delivery? Call, email or WhatsApp us! we're happy to help.
             </p>
 
             <div className="space-y-5 pt-2">
