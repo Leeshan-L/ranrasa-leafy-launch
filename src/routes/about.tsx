@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Coffee, Sunrise, Users, Leaf } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SinhalaText } from "@/components/SinhalaText";
-import aboutImg from "@/assets/about-tea.jpg";
+import aboutImg from "@/assets/about-story.webp";
 import fmArjunnWoff2 from "@/assets/fonts/fm-arjunn.woff2?url";
 
 export const Route = createFileRoute("/about")({
@@ -49,7 +49,7 @@ function About() {
             viewport={{ once: true }} transition={{ duration: 0.6 }}
             className="relative aspect-[4/5] overflow-hidden rounded-lg"
           >
-            <img src={aboutImg} alt="Tea picker in the highlands" loading="lazy" className="h-full w-full object-cover" />
+            <img src={aboutImg} alt="Fresh green tea leaves growing on a tea bush" loading="lazy" className="h-full w-full object-cover" />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent" />
             <div className="absolute bottom-5 left-5 rounded-lg bg-background/95 px-5 py-3 shadow-md backdrop-blur">
               <p className="font-display text-3xl font-bold text-deep-red">15+ Years</p>

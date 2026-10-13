@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Facebook } from "lucide-react";
+import { Menu, X, Facebook, Phone, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { siteConfig, whatsappLink } from "@/lib/site-config";
@@ -176,6 +176,24 @@ function Footer() {
               Chat on WhatsApp
             </a>
           </Button>
+        </div>
+      </div>
+      <div className="border-t border-border">
+        <div className="container-tea flex flex-col items-center justify-center gap-3 py-5 text-sm sm:flex-row sm:gap-10">
+          <a
+            href={`tel:${siteConfig.phoneLink}`}
+            className="inline-flex items-center gap-2 text-foreground/80 transition-colors hover:text-deep-red"
+          >
+            <Phone className="h-4 w-4 text-gold" />
+            {siteConfig.phoneDisplay}
+          </a>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="inline-flex items-center gap-2 break-all text-foreground/80 transition-colors hover:text-deep-red"
+          >
+            <Mail className="h-4 w-4 shrink-0 text-gold" />
+            {siteConfig.email}
+          </a>
         </div>
       </div>
       <div className="border-t border-border">

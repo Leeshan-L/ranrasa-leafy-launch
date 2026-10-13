@@ -1,12 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Truck, Leaf, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Layout, WhatsAppIcon } from "@/components/Layout";
+import { SinhalaText } from "@/components/SinhalaText";
+import { BlogCard } from "@/components/BlogCard";
+import { getPost } from "@/content/blog-posts";
 import { whatsappLink } from "@/lib/site-config";
-import heroImg from "@/assets/hero-tea.jpg";
+import hero1 from "@/assets/hero/hero-1.webp";
+import hero2 from "@/assets/hero/hero-2.webp";
+import hero3 from "@/assets/hero/hero-3.webp";
+import fmArjunnWoff2 from "@/assets/fonts/fm-arjunn.woff2?url";
 import kahataLogo from "@/assets/logos/kahata-logo.webp";
 import kahataTea50g from "@/assets/products/kahata-tea-50g.webp";
 import kahataTeaBags from "@/assets/products/kahata-tea-bags.webp";
@@ -17,9 +23,20 @@ export const Route = createFileRoute("/")({
       { title: "Ranrasa Ceylon Tea | Pure Sri Lankan Highland Tea" },
       { name: "description", content: "Shop Ranrasa Tea: Pure, zero additive Sri Lankan highland tea." },
     ],
+    links: [{ rel: "preload", href: fmArjunnWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" }],
   }),
   component: Home,
 });
+
+// `position` keeps the subject in frame when phones crop the image
+const heroSlides = [
+  { src: hero1, alt: "A cup of Ranrasa tea beside fresh tea leaves overlooking green tea hills", position: "70% center" },
+  { src: hero2, alt: "Green tea plantation on a misty Sri Lankan hillside", position: "center" },
+  { src: hero3, alt: "Tea pluckers picking fresh tea leaves", position: "65% 30%" },
+];
+const SLIDE_MS = 3000;
+
+const journalPosts = ["perfect-cup-of-kahata", "how-to-store-tea"].flatMap((slug) => getPost(slug) ?? []);
 
 const products = [
   {
@@ -49,6 +66,65 @@ const features = [
   { icon: Truck, title: "Island-wide Delivery", desc: "Across Sri Lanka" },
 ];
 
+function HeroSlideshow({ y }: { y: MotionValue<number> }) {
+  const [current, setCurrent] = useState(0);
+  const [tabHidden, setTabHidden] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const onVisibility = () => setTabHidden(document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  // Re-runs whenever the slide changes, so clicking a dot restarts the timer.
+  useEffect(() => {
+    if (reduceMotion || tabHidden) return;
+    const t = setTimeout(() => setCurrent((i) => (i + 1) % heroSlides.length), SLIDE_MS);
+    return () => clearTimeout(t);
+  }, [current, reduceMotion, tabHidden]);
+
+  return (
+    <>
+      <motion.div style={{ y }} className="absolute inset-0 -z-10">
+        {heroSlides.map((slide, i) => (
+          <img
+            key={slide.src}
+            src={slide.src}
+            alt={slide.alt}
+            aria-hidden={i !== current}
+            {...(i === 0 ? { fetchPriority: "high" as const } : { loading: "lazy" as const, decoding: "async" as const })}
+            style={{ objectPosition: slide.position }}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out motion-reduce:transition-none ${
+              i === current ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
+      </motion.div>
+
+      <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center gap-1">
+        {heroSlides.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setCurrent(i)}
+            aria-label={`Show image ${i + 1}`}
+            aria-current={i === current}
+            className="grid h-6 w-6 place-items-center rounded-full"
+          >
+            <span
+              className={`block h-2.5 rounded-full transition-all duration-300 ${
+                i === current ? "w-6 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -58,18 +134,21 @@ function Home() {
     <Layout>
       {/* Hero */}
       <section ref={heroRef} className="relative isolate overflow-hidden">
-        <motion.div style={{ y }} className="absolute inset-0 -z-10">
-          <img src={heroImg} alt="Sri Lankan tea plantation" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-transparent" />
-        </motion.div>
+        <HeroSlideshow y={y} />
 
         <div className="container-tea relative flex min-h-[88vh] flex-col items-start justify-center py-24 text-white">
           <motion.span
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-black/20 px-3 py-1 text-xs uppercase tracking-widest text-gold backdrop-blur"
           >
-            <Leaf className="h-3.5 w-3.5" /> Pure Ceylon Tea
+            <Leaf className="h-3.5 w-3.5" /> Trusted for Over 15 Years
           </motion.span>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05 }}
+            className="mb-3 text-[1.75rem] text-gold drop-shadow sm:text-3xl md:text-4xl"
+          >
+            <SinhalaText fm="iS; l¥lrfha kejqï f;a myi" unicode="සීත කඳුකරයේ නැවුම් තේ පහස" />
+          </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
             className="max-w-3xl font-display text-5xl font-bold leading-[1.05] sm:text-6xl md:text-7xl"
@@ -170,6 +249,33 @@ function Home() {
               </Card>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Journal */}
+      <section className="border-t border-border bg-cream">
+        <div className="container-tea py-20">
+          <div className="mb-12 text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">Journal</span>
+            <h2 className="mt-3 font-display text-4xl font-bold md:text-5xl">From Our Tea Journal</h2>
+            <span className="gold-divider mx-auto mt-4" />
+            <p className="mx-auto mt-5 max-w-xl text-muted-foreground">Tips and stories for the perfect cup</p>
+          </div>
+
+          <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2">
+            {journalPosts.map((post, i) => (
+              <BlogCard key={post.slug} post={post} index={i} headingLevel="h3" />
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button asChild variant="brand" size="lg" className="group">
+              <Link to="/blog">
+                Explore All Stories
+                <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </Layout>

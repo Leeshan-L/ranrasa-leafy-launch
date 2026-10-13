@@ -84,7 +84,7 @@ function BlogPost() {
           </span>
         </div>
 
-        <h1 className="mt-3 font-display text-3xl font-bold leading-tight md:text-5xl">{post.title}</h1>
+        <h1 className="mt-3 font-display text-3xl font-bold leading-tight text-red-gold md:text-5xl">{post.title}</h1>
         <span className="gold-divider mt-5" />
 
         <div className="mt-8 space-y-5 text-base leading-relaxed text-foreground/85 md:text-lg">

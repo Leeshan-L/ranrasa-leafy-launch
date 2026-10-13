@@ -1,5 +1,5 @@
-import blog1 from "@/assets/blog-1.jpg";
-import blog3 from "@/assets/blog-3.jpg";
+import blogKahata from "@/assets/blog/blog-kahata.webp";
+import blogStoring from "@/assets/blog/blog-storing.webp";
 import teaBags from "@/assets/products/kahata-tea-bags.webp";
 import teatime from "@/assets/blog/blog-teatime.webp";
 import brewingSteps from "@/assets/blog/brewing-steps.webp";
@@ -30,10 +30,10 @@ const posts: Post[] = [
     title: "How to Make the Perfect Cup of Kahata",
     excerpt:
       "Pure tea, brewed your way. Follow the simple steps from the back of every Ranrasa packet for a mild, medium or strong cup.",
-    cover: blog3, // TODO: temporary cover
-    coverAlt: "Tea being poured from a teapot into a cup",
+    cover: blogKahata,
+    coverAlt: "Tea being poured from a glass teapot into two cups marked with the Ranrasa logo",
     body: [
-      { type: "p", text: "Kahata is tea at its purest — nothing but the leaf. Whether you enjoy it just as it is, or sweeten it into a cup of plain tea, a great cup always starts with how you brew it." },
+      { type: "p", text: "Kahata is tea at its purest, nothing but the leaf. Whether you enjoy it just as it is, or sweeten it into a cup of plain tea, a great cup always starts with how you brew it." },
       { type: "h2", text: "What you need" },
       {
         type: "ul",
@@ -147,8 +147,8 @@ const posts: Post[] = [
     date: "2026-10-05",
     title: "How to Store Tea So It Stays Fresh",
     excerpt: "Tea loses its flavour faster than you might think. A few simple habits keep every cup of Ranrasa as fresh as the day it was packed.",
-    cover: blog1, // TODO: temporary cover
-    coverAlt: "A cup of tea on a saucer surrounded by dried tea leaves",
+    cover: blogStoring,
+    coverAlt: "A sealed glass jar filled with Ranrasa tea",
     body: [
       { type: "p", text: "We pack Ranrasa tea to seal in its freshness. Once you open the packet, how you store it decides how long that fresh taste lasts." },
       { type: "h2", text: "What tea doesn't like" },
