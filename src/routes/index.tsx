@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Truck, Leaf, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { seo } from "@/lib/seo";
 import { Layout, WhatsAppIcon } from "@/components/Layout";
 import { SinhalaText } from "@/components/SinhalaText";
 import { BlogCard } from "@/components/BlogCard";
@@ -17,13 +18,17 @@ import kahataLogo from "@/assets/logos/kahata-logo.webp";
 import kahataTea50g from "@/assets/products/kahata-tea-50g.webp";
 import kahataTeaBags from "@/assets/products/kahata-tea-bags.webp";
 
+const pageSeo = seo({
+  path: "/",
+  title: "Ranrasa Ceylon Tea | Pure Sri Lankan Highland Tea",
+  description:
+    "Ranrasa Kahata Tea by Sampatha Products: pure Sri Lankan highland tea with zero additives. Tea packets from 50g to 1kg and tea bags, delivered island-wide.",
+});
+
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "Ranrasa Ceylon Tea | Pure Sri Lankan Highland Tea" },
-      { name: "description", content: "Shop Ranrasa Tea: Pure, zero additive Sri Lankan highland tea." },
-    ],
-    links: [{ rel: "preload", href: fmArjunnWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" }],
+    ...pageSeo,
+    links: [...pageSeo.links, { rel: "preload", href: fmArjunnWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" }],
   }),
   component: Home,
 });

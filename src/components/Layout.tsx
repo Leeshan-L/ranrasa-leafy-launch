@@ -211,7 +211,7 @@ function Footer() {
       <div className="border-t border-border">
         <div className="container-tea flex flex-col items-center justify-between gap-2 py-4 text-xs text-muted-foreground sm:flex-row">
           <span>© {new Date().getFullYear()} {siteConfig.brandLine}. All rights reserved.</span>
-          <span>Crafted in the highlands of Sri Lanka.</span>
+          <span>Grown in the highlands, packed in Elpitiya, Sri Lanka.</span>
         </div>
       </div>
     </footer>

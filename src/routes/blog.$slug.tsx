@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Calendar, Clock, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { seo } from "@/lib/seo";
 import { Layout, WhatsAppIcon } from "@/components/Layout";
 import { whatsappLink } from "@/lib/site-config";
 import { getPost, formatDate, readingTime, type Block } from "@/content/blog-posts";
@@ -11,16 +12,15 @@ export const Route = createFileRoute("/blog/$slug")({
     if (!post) throw notFound();
     return post;
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.title} — Ranrasa Journal` },
-          { name: "description", content: loaderData.excerpt },
-          { property: "og:title", content: loaderData.title },
-          { property: "og:description", content: loaderData.excerpt },
-        ]
-      : [],
-  }),
+  head: ({ loaderData }) =>
+    loaderData
+      ? seo({
+          path: `/blog/${loaderData.slug}`,
+          title: `${loaderData.title} — Ranrasa Journal`,
+          description: loaderData.excerpt,
+          type: "article",
+        })
+      : {},
   component: BlogPost,
 });
 

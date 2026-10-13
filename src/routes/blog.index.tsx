@@ -1,15 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { seo } from "@/lib/seo";
 import { Layout } from "@/components/Layout";
 import { BlogCard } from "@/components/BlogCard";
 import { blogPosts } from "@/content/blog-posts";
 
 export const Route = createFileRoute("/blog/")({
-  head: () => ({
-    meta: [
-      { title: "Ranrasa Journal — Tea Stories & Brewing Guides" },
-      { name: "description", content: "Brewing guides, teatime favourites and simple tips for enjoying pure Ranrasa Ceylon tea." },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: "/blog",
+      title: "Ranrasa Journal — Tea Stories & Brewing Guides",
+      description: "Brewing guides, teatime favourites and simple tips for enjoying pure Ranrasa Ceylon tea.",
+    }),
   component: Blog,
 });
 

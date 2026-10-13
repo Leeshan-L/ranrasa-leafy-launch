@@ -6,17 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { seo } from "@/lib/seo";
 import { Layout } from "@/components/Layout";
 import { toast } from "sonner";
 import { siteConfig, mapsLink } from "@/lib/site-config";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Ranrasa — We'd Love to Hear From You" },
-      { name: "description", content: `Contact ${siteConfig.brandLine} in Elpitiya, Sri Lanka. Call, email or WhatsApp us about orders, pack sizes and delivery.` },
-    ],
-  }),
+  head: () =>
+    seo({
+      path: "/contact",
+      title: "Contact Ranrasa — We'd Love to Hear From You",
+      description: `Contact ${siteConfig.brandLine} in Elpitiya, Sri Lanka. Call, email or WhatsApp us about orders, pack sizes and delivery.`,
+    }),
   component: Contact,
 });
 

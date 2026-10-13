@@ -1,19 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Coffee, Sunrise, Users, Leaf } from "lucide-react";
+import { seo } from "@/lib/seo";
 import { Layout } from "@/components/Layout";
 import { SinhalaText } from "@/components/SinhalaText";
 import aboutImg from "@/assets/about-story.webp";
 import founderImg from "@/assets/about/founder.webp";
 import fmArjunnWoff2 from "@/assets/fonts/fm-arjunn.woff2?url";
 
+const pageSeo = seo({
+  path: "/about",
+  title: "About Ranrasa — The Golden Taste of Pure Tea",
+  description:
+    "The story of Ranrasa Tea by Sampatha Products: pure Sri Lankan highland tea with zero additives, processed and packed in Elpitiya for over fifteen years.",
+});
+
 export const Route = createFileRoute("/about")({
   head: () => ({
-    meta: [
-      { title: "About Ranrasa — The Golden Taste of Pure Tea" },
-      { name: "description", content: "The story of Ranrasa Tea by Sampatha Products: pure Sri Lankan highland tea with zero additives, processed and packed in Elpitiya for over fifteen years." },
-    ],
-    links: [{ rel: "preload", href: fmArjunnWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" }],
+    ...pageSeo,
+    links: [...pageSeo.links, { rel: "preload", href: fmArjunnWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" }],
   }),
   component: About,
 });
