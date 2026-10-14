@@ -5,7 +5,8 @@ import { formatDate, type Post } from "@/content/blog-posts";
 
 // Card used on the Blog page and the Home page journal section.
 // The whole card is clickable via the title link's ::after overlay.
-export function BlogCard({ post, index = 0, headingLevel: Heading = "h2" }: { post: Post; index?: number; headingLevel?: "h2" | "h3" }) {
+// `eager` for cards visible on first load (top of the Blog page); others lazy-load.
+export function BlogCard({ post, index = 0, headingLevel: Heading = "h2", eager = false }: { post: Post; index?: number; headingLevel?: "h2" | "h3"; eager?: boolean }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 24 }}
@@ -15,7 +16,7 @@ export function BlogCard({ post, index = 0, headingLevel: Heading = "h2" }: { po
       className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-background transition-all hover:-translate-y-1 hover:shadow-lg"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-cream">
-        <img src={post.cover} alt={post.coverAlt} loading="lazy"
+        <img src={post.cover} alt={post.coverAlt} loading={eager ? "eager" : "lazy"}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
       </div>
       <div className="flex flex-1 flex-col p-6">

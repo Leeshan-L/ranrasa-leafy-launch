@@ -244,7 +244,7 @@ function Home() {
                     src={p.img}
                     alt={p.alt}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute left-4 top-4 rounded-full bg-deep-red px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
                     {p.tag}
