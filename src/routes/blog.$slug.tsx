@@ -69,7 +69,7 @@ function BlogPost() {
           <ArrowLeft className="h-4 w-4" /> Back to Blog
         </Link>
 
-        <div className="mt-6 aspect-[16/9] overflow-hidden rounded-lg bg-cream">
+        <div className="mt-6 aspect-[4/3] overflow-hidden rounded-lg bg-cream">
           <img src={post.cover} alt={post.coverAlt} className="h-full w-full object-cover" />
         </div>
 

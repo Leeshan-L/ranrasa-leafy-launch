@@ -31,7 +31,7 @@ function Blog() {
       <section className="container-tea py-20">
         <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
           {blogPosts.map((p, i) => (
-            <BlogCard key={p.slug} post={p} index={i} />
+            <BlogCard key={p.slug} post={p} index={i} eager={i < 2} />
           ))}
         </div>
       </section>
