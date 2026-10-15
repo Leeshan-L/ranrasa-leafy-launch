@@ -5,7 +5,7 @@ export const siteConfig = {
   tiktokUrl: "https://www.tiktok.com/@ranrasa.tea",
   companyName: "Sampatha Products",
   brandLine: "Ranrasa Tea by Sampatha Products",
-  address: "49/10, Ananda Vidyala Mawatha, Elpitiya, Sri Lanka",
+  address: "NO. 209/F, Punchikahabiliyagoda, Igala, Elpitiya, Sri Lanka",
   email: "hello@ranrasaceylontea.com",
   phoneDisplay: "+94 77 260 9457",
   phoneLink: "+94772609457",
